@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horological Vault — Watch Collection & Analyzer</title>
+  <meta name="description" content="A premium digital vault for cataloging, filtering, and analyzing your personal watch collection. Explore movements, occasions, and discover new timepieces.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Background -->
+  <div class="bg-grid"></div>
+  <div class="bg-gradient-orbs"></div>
+
+  <!-- ═══ Header ═══ -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#hero" class="logo">
+        <div class="logo-icon">⌚</div>
+        <div class="logo-text">Horological <span>Vault</span></div>
+      </a>
+      <nav class="nav" id="main-nav">
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#occasions" class="nav-link">Occasions</a>
+        <a href="#analyzer" class="nav-link">Analyzer</a>
+        <a href="#discovery" class="nav-link">Discovery</a>
+      </nav>
+      <button class="mobile-menu-btn" onclick="document.getElementById('main-nav').classList.toggle('open')">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ Hero Section ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Collection Active
+      </div>
+      <h1 class="hero-title">
+        The <span class="gold">Horological</span> Vault
+      </h1>
+      <p class="hero-subtitle">
+        A curated sanctum for the discerning collector. Catalog your timepieces, 
+        match them to every occasion, analyze your collection's DNA, and discover 
+        your next acquisition.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="hero-stat-total">0</div>
+          <div class="hero-stat-label">Timepieces</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="hero-stat-brands">0</div>
+          <div class="hero-stat-label">Maisons</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="hero-stat-movements">0</div>
+          <div class="hero-stat-label">Calibers</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#gallery" class="btn btn-primary">Enter the Vault</a>
+        <a href="#discovery" class="btn btn-secondary">Discover Watches</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Gallery Section ═══ -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <div class="section-header animate-in">
+        <div class="section-tag">Collection</div>
+        <h2 class="section-title">The Digital <span class="gold">Vault Gallery</span></h2>
+        <p class="section-desc">
+          High-resolution showcase of every timepiece with precise horological specifications.
+        </p>
+        <button class="btn btn-primary" onclick="toggleAddWatchForm()" style="margin-top: var(--space-md);">+ Add New Watch</button>
+      </div>
+
+      <!-- Add Watch Form -->
+      <div id="add-watch-form-container" class="animate-in" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg); padding: var(--space-lg); margin-top: var(--space-lg); margin-bottom: var(--space-lg);">
+        <h3 style="color: var(--clr-gold); margin-bottom: var(--space-md); font-family: var(--font-heading); font-size: 1.5rem;">Add a Timepiece</h3>
+        
+        <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <label style="display: block; margin-bottom: var(--space-sm); color: var(--clr-text-muted);">Auto-fill from Global Database (Optional)</label>
+          <div style="display: flex; gap: var(--space-sm);">
+            <input type="text" id="new-watch-reference" class="search-input" placeholder="Enter Reference or Serial Number (e.g. 116610LN)">
+            <button type="button" class="btn btn-secondary" onclick="autoFillWatch()">Search</button>
+          </div>
+          <div id="autofill-status" style="margin-top: var(--space-sm); font-size: 0.85rem; color: var(--clr-gold);"></div>
+        </div>
+
+        <form id="add-watch-form" onsubmit="handleAddWatchSubmit(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+          <input type="text" id="new-watch-brand" class="search-input" placeholder="Brand (e.g. Rolex)" required>
+          <input type="text" id="new-watch-model" class="search-input" placeholder="Model (e.g. Submariner)" required>
+          
+          <select id="new-watch-movement" class="filter-select" style="width: 100%;" required>
+            <option value="" disabled selected>Select Movement</option>
+            <option value="Manual mechanical">Manual mechanical</option>
+            <option value="Automatic mechanical">Automatic mechanical</option>
+            <option value="Quartz">Quartz</option>
+            <option value="Solar quartz">Solar quartz</option>
+            <option value="Bluetooth/connected">Bluetooth/connected</option>
+          </select>
+          
+          <input type="text" id="new-watch-year" class="search-input" placeholder="Year (e.g. 2023)">
+          
+          <select id="new-watch-type" class="filter-select" style="width: 100%;" required>
+            <option value="" disabled selected>Select Type</option>
+            <option value="Casual">Casual</option>
+            <option value="Dress-casual">Dress-casual</option>
+            <option value="Sports">Sports</option>
+            <option value="Tool">Tool</option>
+            <option value="Vintage">Vintage</option>
+            <option value="Ana-digi">Ana-digi</option>
+            <option value="Solar">Solar</option>
+            <option value="Diver">Diver</option>
+            <option value="Pilot">Pilot</option>
+            <option value="Field-specific modern watch">Field-specific modern watch</option>
+            <option value="Racing">Racing</option>
+            <option value="GMT">GMT</option>
+            <option value="Worldtimer">Worldtimer</option>
+            <option value="Dress watch">Dress watch</option>
+            <option value="Luxury/high horology">Luxury/high horology</option>
+          </select>
+
+          <div>
+            <select id="new-watch-complications" class="filter-select" style="width: 100%;" multiple>
+              <option value="" disabled selected>Select Complication</option>
+              <option value="None">None</option>
+              <option value="Date">Date</option>
+              <option value="Day">Day</option>
+              <option value="Day-Date">Day-Date</option>
+              <option value="World time">World time</option>
+              <option value="Alarm">Alarm</option>
+              <option value="Stopwatch/timing">Stopwatch/timing</option>
+              <option value="Countdown timer">Countdown timer</option>
+              <option value="GMT hand">GMT hand</option>
+              <option value="Chronograph">Chronograph</option>
+              <option value="Moonphase">Moonphase</option>
+              <option value="Earthphase">Earthphase</option>
+              <option value="Power reserve">Power reserve</option>
+              <option value="Annual calendar">Annual calendar</option>
+              <option value="Perpetual calendar">Perpetual calendar</option>
+              <option value="Worldtimer">Worldtimer</option>
+              <option value="Retrograde">Retrograde</option>
+              <option value="Jumping hours">Jumping hours</option>
+              <option value="Alarm mechanical">Alarm mechanical</option>
+              <option value="Tourbillon">Tourbillon</option>
+              <option value="Minute repeater">Minute repeater</option>
+              <option value="Perpetual chronograph">Perpetual chronograph</option>
+              <option value="Multifunction">Multifunction</option>
+            </select>
+          </div>
+          
+          <div>
+            <select id="new-watch-features" class="filter-select" style="width: 100%;" multiple>
+              <option value="" disabled selected>Select Features</option>
+              <option value="None">None</option>
+              <option value="Lume">Lume</option>
+              <option value="Rotating Bezel">Rotating Bezel</option>
+              <option value="Exhibition Back">Exhibition Back</option>
+              <option value="Screw-down Crown">Screw-down Crown</option>
+              <option value="Helium Escape Valve">Helium Escape Valve</option>
+              <option value="Anti-magnetic">Anti-magnetic</option>
+              <option value="Skeletonized">Skeletonized</option>
+              <option value="Diamond Dial">Diamond Dial</option>
+              <option value="Guilloche Dial">Guilloche Dial</option>
+              <option value="Enamel Dial">Enamel Dial</option>
+            </select>
+          </div>
+          
+          <div style="display: flex; gap: 1rem;">
+            <div style="flex: 1;">
+              <select id="new-watch-occasions" class="filter-select" style="width: 100%;" multiple>
+                <option value="" disabled selected>Select Occasions</option>
+                <option value="Everyday">Everyday</option>
+                <option value="Casual">Casual</option>
+                <option value="Formal / Dress">Formal / Dress</option>
+                <option value="Sport / Active">Sport / Active</option>
+                <option value="Travel">Travel</option>
+                <option value="Professional / Tool">Professional / Tool</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="predictOccasions('new')" style="white-space: nowrap;">Predict ⚡</button>
+          </div>
+          
+          <input type="text" id="new-watch-case" class="search-input" placeholder="Case Material (e.g. Steel)">
+          <input type="text" id="new-watch-water-resistance" class="search-input" placeholder="Water Resistance (e.g. 200m)">
+          <input type="text" id="new-watch-crystal" class="search-input" placeholder="Crystal (e.g. Sapphire)">
+          <input type="text" id="new-watch-caliber" class="search-input" placeholder="Caliber (e.g. 3135)">
+          <input type="text" id="new-watch-image" class="search-input" placeholder="Photo URL (Optional)">
+          
+          <div style="grid-column: 1 / -1; display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-sm);">
+            <button type="button" class="btn btn-ghost" onclick="toggleAddWatchForm()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Watch</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar animate-in">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">In Collection</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-wishlist">0</div>
+          <div class="stat-label">Wishlist</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-brands">0</div>
+          <div class="stat-label">Brands</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-movements">0</div>
+          <div class="stat-label">Movements</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="gallery-filters animate-in">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All Pieces</button>
+        <button class="filter-btn" onclick="setFilter('owned', this)">Owned</button>
+        <button class="filter-btn" onclick="setFilter('wishlist', this)">Wishlist</button>
+        <button class="filter-btn" onclick="setFilter('dress', this)">Dress</button>
+        <button class="filter-btn" onclick="setFilter('sports', this)">Sports</button>
+        <button class="filter-btn" onclick="setFilter('vintage', this)">Vintage</button>
+        <button class="filter-btn" onclick="setFilter('automatic', this)">Automatic</button>
+        <button class="filter-btn" onclick="setFilter('quartz', this)">Quartz</button>
+      </div>
+
+      <!-- Watch Grid -->
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Occasion Matcher ═══ -->
+  <section class="section" id="occasions">
+    <div class="container">
+      <div class="section-header animate-in">
+        <div class="section-tag">Matcher</div>
+        <h2 class="section-title">Occasion <span class="gold">Matcher</span></h2>
+        <p class="section-desc">
+          Pair the perfect timepiece with your dress code. Select an occasion to see recommended watches.
+        </p>
+      </div>
+
+      <div class="occasion-grid animate-in" id="occasion-grid"></div>
+
+      <div class="occasion-results" id="occasion-results"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Gap Analyzer ═══ -->
+  <section class="section" id="analyzer">
+    <div class="container">
+      <div class="section-header animate-in">
+        <div class="section-tag">Analysis</div>
+        <h2 class="section-title">Horological <span class="gold">Gap Analyzer</span></h2>
+        <p class="section-desc">
+          Compare your inventory against a master matrix to identify missing collection categories.
+        </p>
+      </div>
+
+      <div class="gap-dashboard animate-in">
+        <div id="gap-matrix" class="gap-matrix"></div>
+        <div id="gap-suggestions" class="gap-suggestions"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Discovery Engine ═══ -->
+  <section class="section" id="discovery">
+    <div class="container">
+      <div class="section-header animate-in">
+        <div class="section-tag">Explore</div>
+        <h2 class="section-title">Live <span class="gold">Discovery</span> Engine</h2>
+        <p class="section-desc">
+          Explore real-time global watch data powered by <a href="https://www.thewatchapi.com" target="_blank" style="color: var(--clr-gold); text-decoration: underline;">thewatchapi.com</a> — search thousands of watches, browse brands, and add to your wishlist.
+        </p>
+      </div>
+
+
+
+      <!-- Search & Filters -->
+      <div class="discovery-controls animate-in" id="discovery-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="discovery-search-input" 
+            class="search-input" 
+            placeholder="Search by brand, model, reference number..."
+          >
+          <button class="search-btn" onclick="searchDiscovery()">Search</button>
+        </div>
+        <div class="discovery-filters">
+          <div class="filter-group">
+            <label class="filter-label">Search In</label>
+            <select id="search-attributes" class="filter-select">
+              <option value="brand,model,reference_number,description">All Fields</option>
+              <option value="brand">Brand Only</option>
+              <option value="model" selected>Model</option>
+              <option value="reference_number">Reference #</option>
+              <option value="case_material">Case Material</option>
+              <option value="movement">Movement</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Movement</label>
+            <select id="filter-movement" class="filter-select">
+              <option value="">Any</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual winding">Manual Wind</option>
+              <option value="Quartz">Quartz</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Case Material</label>
+            <select id="filter-case-material" class="filter-select">
+              <option value="">Any</option>
+              <option value="Steel">Steel</option>
+              <option value="Yellow gold">Yellow Gold</option>
+              <option value="Rose gold">Rose Gold</option>
+              <option value="White gold">White Gold</option>
+              <option value="Platinum">Platinum</option>
+              <option value="Titanium">Titanium</option>
+              <option value="Ceramic">Ceramic</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Quick Browse -->
+      <div class="brand-browse animate-in" id="brand-browse">
+        <div class="brand-browse-header">
+          <h3 class="brand-browse-title">🏷️ Browse by Brand</h3>
+          <button class="btn btn-ghost" onclick="loadBrandList()">Refresh Brands</button>
+        </div>
+        <div class="brand-pills" id="brand-pills">
+          <button class="brand-pill active" onclick="selectBrand('', this)">All Brands</button>
+        </div>
+      </div>
+
+      <!-- Results area -->
+      <div class="discovery-results-info" id="discovery-results-info" style="display: none;"></div>
+      <div class="discovery-grid" id="discovery-grid"></div>
+      <div class="discovery-loading" id="discovery-loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Searching global watch database...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">Horological <span>Vault</span></div>
+      <div class="footer-text">A digital sanctum for the discerning collector.</div>
+    </div>
+  </footer>
+
+  <!-- ═══ Watch Detail Modal ═══ -->
+  <div class="modal-overlay" id="watch-modal" onclick="closeModal(event)"></div>
+
+  <!-- ═══ Add/Edit Watch Modal ═══ -->
+  <div class="modal-overlay" id="edit-watch-modal" onclick="closeEditModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+      <div class="modal-body" style="padding: 2rem; max-width: 400px; margin: 0 auto; background: var(--clr-surface); border-radius: 12px; border: 1px solid var(--clr-border);">
+        <h2 id="edit-modal-title" style="margin-bottom: 1.5rem; color: var(--clr-gold); font-size: 1.5rem;">Edit Watch</h2>
+        <form id="edit-watch-form" onsubmit="handleSaveWatch(event)">
+          <input type="hidden" id="edit-watch-id" value="">
+          
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Brand / Name</label>
+            <input type="text" id="edit-watch-brand" required style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Model</label>
+            <input type="text" id="edit-watch-model" required style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+          </div>
+
+          <div style="margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Movement</label>
+              <select id="edit-watch-movement" class="filter-select" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+                <option value="Manual mechanical">Manual mechanical</option>
+                <option value="Automatic mechanical">Automatic mechanical</option>
+                <option value="Quartz">Quartz</option>
+                <option value="Solar quartz">Solar quartz</option>
+                <option value="Bluetooth/connected">Bluetooth/connected</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Year</label>
+              <input type="text" id="edit-watch-year" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Type</label>
+            <select id="edit-watch-type" class="filter-select" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+              <option value="Casual">Casual</option>
+              <option value="Dress-casual">Dress-casual</option>
+              <option value="Sports">Sports</option>
+              <option value="Tool">Tool</option>
+              <option value="Vintage">Vintage</option>
+              <option value="Ana-digi">Ana-digi</option>
+              <option value="Solar">Solar</option>
+              <option value="Diver">Diver</option>
+              <option value="Pilot">Pilot</option>
+              <option value="Field-specific modern watch">Field-specific modern watch</option>
+              <option value="Racing">Racing</option>
+              <option value="GMT">GMT</option>
+              <option value="Worldtimer">Worldtimer</option>
+              <option value="Dress watch">Dress watch</option>
+              <option value="Luxury/high horology">Luxury/high horology</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Complications</label>
+            <select id="edit-watch-complications" class="filter-select" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;" multiple>
+              <option value="" disabled>Select Complication</option>
+              <option value="None">None</option>
+              <option value="Date">Date</option>
+              <option value="Day">Day</option>
+              <option value="Day-Date">Day-Date</option>
+              <option value="World time">World time</option>
+              <option value="Alarm">Alarm</option>
+              <option value="Stopwatch/timing">Stopwatch/timing</option>
+              <option value="Countdown timer">Countdown timer</option>
+              <option value="GMT hand">GMT hand</option>
+              <option value="Chronograph">Chronograph</option>
+              <option value="Moonphase">Moonphase</option>
+              <option value="Earthphase">Earthphase</option>
+              <option value="Power reserve">Power reserve</option>
+              <option value="Annual calendar">Annual calendar</option>
+              <option value="Perpetual calendar">Perpetual calendar</option>
+              <option value="Worldtimer">Worldtimer</option>
+              <option value="Retrograde">Retrograde</option>
+              <option value="Jumping hours">Jumping hours</option>
+              <option value="Alarm mechanical">Alarm mechanical</option>
+              <option value="Tourbillon">Tourbillon</option>
+              <option value="Minute repeater">Minute repeater</option>
+              <option value="Perpetual chronograph">Perpetual chronograph</option>
+              <option value="Split-seconds chronograph">Split-seconds chronograph</option>
+              <option value="Multifunction">Multifunction</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Features</label>
+            <select id="edit-watch-features" class="filter-select" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;" multiple>
+              <option value="" disabled>Select Features</option>
+              <option value="None">None</option>
+              <option value="Lume">Lume</option>
+              <option value="Rotating Bezel">Rotating Bezel</option>
+              <option value="Exhibition Back">Exhibition Back</option>
+              <option value="Screw-down Crown">Screw-down Crown</option>
+              <option value="Helium Escape Valve">Helium Escape Valve</option>
+              <option value="Anti-magnetic">Anti-magnetic</option>
+              <option value="Skeletonized">Skeletonized</option>
+              <option value="Diamond Dial">Diamond Dial</option>
+              <option value="Guilloche Dial">Guilloche Dial</option>
+              <option value="Enamel Dial">Enamel Dial</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1rem; display: flex; align-items: flex-end; gap: 1rem;">
+            <div style="flex: 1;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Occasions / Use Cases</label>
+              <select id="edit-watch-occasions" class="filter-select" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;" multiple>
+                <option value="" disabled>Select Occasions</option>
+                <option value="Everyday">Everyday</option>
+                <option value="Casual">Casual</option>
+                <option value="Formal / Dress">Formal / Dress</option>
+                <option value="Sport / Active">Sport / Active</option>
+                <option value="Travel">Travel</option>
+                <option value="Professional / Tool">Professional / Tool</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="predictOccasions('edit')" style="padding: 0.8rem 1rem; white-space: nowrap;">Predict Best ⚡</button>
+          </div>
+
+          <div style="margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Case Material</label>
+              <input type="text" id="edit-watch-case" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Water Resistance</label>
+              <input type="text" id="edit-watch-water-resistance" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Crystal</label>
+              <input type="text" id="edit-watch-crystal" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Caliber</label>
+              <input type="text" id="edit-watch-caliber" style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--clr-text-muted); font-size: 0.9rem;">Photo URL</label>
+            <input type="text" id="edit-watch-image" placeholder="https://..." style="width: 100%; padding: 0.8rem; border-radius: 6px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--clr-border); color: white; font-family: inherit;">
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Save Watch</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
