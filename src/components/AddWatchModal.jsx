@@ -272,7 +272,16 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
           {/* Image picker */}
           <div style={{ marginBottom: "var(--space-md)" }}>
             <label style={{ display: "block", color: "var(--clr-muted)", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>Watch Photo</label>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+            
+            <Field 
+              label="Custom Image URL" 
+              name="image" 
+              value={form.image} 
+              onChange={handleChange} 
+              placeholder="Paste image URL here, or select a preset below..." 
+            />
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px", marginTop: "12px" }}>
               {IMAGE_OPTIONS.map(({ label, value }) => (
                 <div
                   key={value}
