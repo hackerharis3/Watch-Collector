@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import WatchCard from "./WatchCard";
 import WatchModal from "./WatchModal";
@@ -9,6 +9,7 @@ export default function GallerySection() {
   const [filter, setFilter] = useState("all");
   const [selectedWatch, setSelectedWatch] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingWatch, setEditingWatch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState(""); // "synced" | "error" | ""
 
@@ -38,6 +39,12 @@ export default function GallerySection() {
   // Add a watch (received from AddWatchModal after API call succeeds)
   const handleAdd = (newWatch) => {
     setWatches((prev) => [...prev, newWatch]);
+    setSyncStatus("synced");
+  };
+
+  // Update a watch
+  const handleEdit = (updatedWatch) => {
+    setWatches((prev) => prev.map((w) => (w.id === updatedWatch.id ? updatedWatch : w)));
     setSyncStatus("synced");
   };
 
@@ -183,13 +190,16 @@ export default function GallerySection() {
         watch={selectedWatch}
         onClose={() => setSelectedWatch(null)}
         onDelete={handleDelete}
+        onEdit={(w) => setEditingWatch(w)}
       />
 
-      {/* Add Watch Modal */}
+      {/* Add/Edit Watch Modal */}
       <AddWatchModal
-        open={showAddModal}
-        onClose={() => setShowAddModal(false)}
+        open={showAddModal || !!editingWatch}
+        onClose={() => { setShowAddModal(false); setEditingWatch(null); }}
         onAdd={handleAdd}
+        onEdit={handleEdit}
+        initialWatch={editingWatch}
       />
     </section>
   );

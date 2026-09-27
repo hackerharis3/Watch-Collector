@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-export default function WatchModal({ watch, onClose, onDelete }) {
+export default function WatchModal({ watch, onClose, onDelete, onEdit }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,10 @@ export default function WatchModal({ watch, onClose, onDelete }) {
         <button 
           className="modal-edit-btn" 
           onClick={() => {
-            alert("Edit Watch functionality coming in the next phase! For now, please use the Delete button if you want to remove this watch.");
+            if (onEdit) {
+              onEdit(watch);
+              onClose();
+            }
           }} 
           style={{ 
             position: "absolute", 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -91,9 +91,9 @@ const EMPTY_FORM = {
   water_resistance: "", lug_width: "", year: "",
 };
 
-export default function AddWatchModal({ open, onClose, onAdd }) {
+export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWatch }) {
   const [mounted, setMounted] = useState(false);
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(initialWatch || EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -102,13 +102,23 @@ export default function AddWatchModal({ open, onClose, onAdd }) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
-      setForm(EMPTY_FORM);
+      if (initialWatch) {
+        setForm({
+          ...initialWatch,
+          type: Array.isArray(initialWatch.type) ? initialWatch.type : (initialWatch.type ? [initialWatch.type] : []),
+          complications: Array.isArray(initialWatch.complications) ? initialWatch.complications : (initialWatch.complications ? [initialWatch.complications] : []),
+          features: Array.isArray(initialWatch.features) ? initialWatch.features : (initialWatch.features ? [initialWatch.features] : []),
+          occasions: Array.isArray(initialWatch.occasions) ? initialWatch.occasions : (initialWatch.occasions ? [initialWatch.occasions] : []),
+        });
+      } else {
+        setForm(EMPTY_FORM);
+      }
       setError("");
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [open]);
+  }, [open, initialWatch]);
 
   if (!open || !mounted) return null;
 
@@ -128,14 +138,25 @@ export default function AddWatchModal({ open, onClose, onAdd }) {
     setSaving(true);
     setError("");
     try {
-      const res = await fetch("/api/collection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error || "Failed to save");
-      onAdd(data.watch);
+      if (initialWatch) {
+        const res = await fetch(`/api/collection/${initialWatch.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || "Failed to update");
+        if (onEdit) onEdit(data.watch);
+      } else {
+        const res = await fetch("/api/collection", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || "Failed to save");
+        if (onAdd) onAdd(data.watch);
+      }
       onClose();
     } catch (err) {
       setError(err.message);
@@ -191,10 +212,10 @@ export default function AddWatchModal({ open, onClose, onAdd }) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
               <div style={{ fontSize: "0.72rem", color: "var(--clr-gold)", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "4px" }}>
-                ✦ Add to Vault
+                {initialWatch ? "✦ Edit Watch" : "✦ Add to Vault"}
               </div>
               <h2 style={{ margin: 0, fontSize: "1.4rem", fontFamily: "var(--font-serif, Georgia)", color: "var(--clr-text)" }}>
-                New Timepiece
+                {initialWatch ? "Update Timepiece" : "New Timepiece"}
               </h2>
             </div>
             <button
@@ -315,7 +336,7 @@ export default function AddWatchModal({ open, onClose, onAdd }) {
             onMouseOver={(e) => { if (!saving) e.currentTarget.style.transform = "translateY(-1px)"; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = "none"; }}
           >
-            {saving ? "⏳ Saving to Vault..." : "⌚ Add to Vault"}
+            {saving ? "⏳ Saving..." : initialWatch ? "💾 Save Changes" : "⌚ Add to Vault"}
           </button>
         </form>
       </div>
