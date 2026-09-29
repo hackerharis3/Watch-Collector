@@ -35,14 +35,12 @@ export async function GET(request) {
         });
 
         if (!response.ok) {
-          if (response.status === 404) {
-            watches = []; // No watches found, will trigger brand fallback
-          } else if (response.status === 401 || response.status === 403) {
+          if (response.status === 401 || response.status === 403) {
             return NextResponse.json({ error: { code: 'unauthorized', message: 'Invalid or expired RapidAPI key.' } }, { status: 401 });
           } else if (response.status === 429 || response.status === 402) {
             throw new Error('API rate limit reached');
           } else {
-            throw new Error(`RapidAPI returned ${response.status}`);
+            watches = []; // Any other error (404, 400, 500), assume no watches found and try brand fallback
           }
         } else {
           const data = await response.json();
@@ -59,7 +57,7 @@ export async function GET(request) {
             const makesList = Array.isArray(makes) ? makes : (makes.data || []);
             const matchedMake = makesList.find(m => {
               const name = typeof m === 'string' ? m : (m.name || m.Make || m.brand || '');
-              return name.toLowerCase() === search.toLowerCase();
+              return name.trim().toLowerCase() === search.trim().toLowerCase();
             });
             if (matchedMake) {
               const makeId = typeof matchedMake === 'string' ? matchedMake : (matchedMake.id || matchedMake._id || matchedMake.makeId || matchedMake.MakeId || '');
@@ -91,7 +89,7 @@ export async function GET(request) {
         const makesList = Array.isArray(makes) ? makes : (makes.data || []);
         const matchedMake = makesList.find(m => {
           const name = typeof m === 'string' ? m : (m.name || m.Make || m.brand || '');
-          return name.toLowerCase() === brandName.toLowerCase();
+          return name.trim().toLowerCase() === brandName.trim().toLowerCase();
         });
 
         if (matchedMake) {
