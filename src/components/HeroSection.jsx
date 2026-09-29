@@ -13,8 +13,8 @@ export default function HeroSection() {
         if (!res.ok) return;
         const data = await res.json();
         
-        if (data.success && data.data && isMounted) {
-          const watches = data.data;
+        if (data.success && data.watches && isMounted) {
+          const watches = data.watches;
           const brands = new Set(watches.map(w => w.brand).filter(Boolean));
           const movements = new Set(watches.map(w => w.caliber || w.movement).filter(Boolean));
           
