@@ -10,14 +10,17 @@ const OCCASION_OPTIONS = ["Formal", "Business Casual", "Casual", "Sports", "Outd
 const CRYSTAL_OPTIONS = ["Sapphire", "Mineral", "Acrylic", "Hardlex", "Mineral (Domed)", "Sapphire (Domed)"];
 const MATERIAL_OPTIONS = ["Stainless Steel", "Titanium", "Gold", "Rose Gold", "Ceramic", "Carbon/Resin", "Resin", "Bio-Sourced Plastic", "Aluminium"];
 
-function MultiSelect({ options, value, onChange, label }) {
+function MultiSelect({ options, value, onChange, label, action }) {
   const toggle = (opt) => {
     if (value.includes(opt)) onChange(value.filter((v) => v !== opt));
     else onChange([...value, opt]);
   };
   return (
     <div style={{ marginBottom: "var(--space-md)" }}>
-      <label style={{ display: "block", color: "var(--clr-muted)", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>{label}</label>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <label style={{ display: "block", color: "var(--clr-muted)", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 0 }}>{label}</label>
+        {action}
+      </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
         {options.map((opt) => (
           <button
@@ -268,6 +271,47 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
 
   const setMulti = (key) => (val) => setForm((prev) => ({ ...prev, [key]: val }));
 
+  const handlePredictOccasions = () => {
+    let predicted = new Set();
+    const typeStr = (form.type || []).join(" ").toLowerCase();
+    const matStr = (form.case_material || "").toLowerCase();
+    const compStr = (form.complications || []).join(" ").toLowerCase();
+    const movStr = (form.movement || "").toLowerCase();
+    
+    // Formal / Evening
+    if (typeStr.includes("dress") || typeStr.includes("classic") || matStr.includes("gold") || matStr.includes("rose gold")) {
+      predicted.add("Formal");
+      predicted.add("Evening");
+    }
+    
+    // Business Casual
+    if (typeStr.includes("dress") || typeStr.includes("casual") || typeStr.includes("classic") || typeStr.includes("vintage")) {
+      predicted.add("Business Casual");
+    }
+    
+    // Casual
+    if (typeStr.includes("casual") || typeStr.includes("fashion") || typeStr.includes("field") || typeStr.includes("retro")) {
+      predicted.add("Casual");
+    }
+    
+    // Sports / Outdoor
+    if (typeStr.includes("sports") || typeStr.includes("diver") || typeStr.includes("field") || typeStr.includes("digital") || movStr.includes("solar") || matStr.includes("resin") || matStr.includes("carbon")) {
+      predicted.add("Sports");
+      predicted.add("Outdoor");
+    }
+    
+    // Travel
+    if (compStr.includes("gmt") || compStr.includes("world time") || compStr.includes("dual time")) {
+      predicted.add("Travel");
+    }
+
+    if (predicted.size === 0) {
+      predicted.add("Casual"); // Default fallback
+    }
+
+    setForm(prev => ({ ...prev, occasions: Array.from(predicted) }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.brand.trim() || !form.model.trim()) {
@@ -418,7 +462,37 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
           <MultiSelect label="Watch Type" options={TYPE_OPTIONS} value={form.type} onChange={setMulti("type")} />
           <MultiSelect label="Complications" options={COMPLICATION_OPTIONS} value={form.complications} onChange={setMulti("complications")} />
           <MultiSelect label="Features" options={FEATURE_OPTIONS} value={form.features} onChange={setMulti("features")} />
-          <MultiSelect label="Best For (Occasions)" options={OCCASION_OPTIONS} value={form.occasions} onChange={setMulti("occasions")} />
+          <MultiSelect 
+            label="Best For (Occasions)" 
+            options={OCCASION_OPTIONS} 
+            value={form.occasions} 
+            onChange={setMulti("occasions")}
+            action={
+              <button 
+                type="button" 
+                onClick={handlePredictOccasions}
+                style={{
+                  background: "rgba(197, 160, 89, 0.15)",
+                  border: "1px solid rgba(197, 160, 89, 0.4)",
+                  color: "var(--clr-gold)",
+                  padding: "4px 10px",
+                  borderRadius: "6px",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: 600,
+                  transition: "all 0.2s"
+                }}
+                onMouseOver={(e) => { e.currentTarget.style.background = "rgba(197, 160, 89, 0.3)"; e.currentTarget.style.borderColor = "var(--clr-gold)"; }}
+                onMouseOut={(e) => { e.currentTarget.style.background = "rgba(197, 160, 89, 0.15)"; e.currentTarget.style.borderColor = "rgba(197, 160, 89, 0.4)"; }}
+              >
+                ✨ Auto-Predict
+              </button>
+            }
+          />
 
           {error && (
             <div style={{ color: "#ff6b6b", background: "rgba(255,0,0,0.08)", border: "1px solid rgba(255,0,0,0.2)", borderRadius: "8px", padding: "10px 14px", marginBottom: "16px", fontSize: "0.88rem" }}>
