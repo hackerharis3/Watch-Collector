@@ -304,14 +304,7 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
     }
   };
 
-  const IMAGE_OPTIONS = [
-    { label: "Dress / Classic", value: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80" },
-    { label: "Sports / G-Shock", value: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=400&q=80" },
-    { label: "Casual / Swatch", value: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=400&q=80" },
-    { label: "Orient / Bambino", value: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=400&q=80" },
-    { label: "Digital / Retro", value: "https://images.unsplash.com/photo-1584813539806-2538b8d918c6?auto=format&fit=crop&w=400&q=80" },
-    { label: "Diver / Automatic", value: "https://images.unsplash.com/photo-1548169874-53ce86f7d73f?auto=format&fit=crop&w=400&q=80" },
-  ];
+
 
   return createPortal(
     <div
@@ -417,37 +410,8 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
               name="image" 
               value={form.image} 
               onChange={handleChange} 
-              placeholder="Paste image URL here, or select a preset below..." 
+              placeholder="Paste image URL here..." 
             />
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px", marginTop: "12px" }}>
-              {IMAGE_OPTIONS.map(({ label, value }) => (
-                <div
-                  key={value}
-                  onClick={() => setForm((prev) => ({ ...prev, image: value }))}
-                  style={{
-                    borderRadius: "10px", overflow: "hidden", cursor: "pointer",
-                    border: form.image === value ? "2px solid var(--clr-gold)" : "2px solid rgba(255,255,255,0.08)",
-                    position: "relative", aspectRatio: "1",
-                    transition: "border 0.2s",
-                    boxShadow: form.image === value ? "0 0 12px rgba(197,160,89,0.3)" : "none",
-                  }}
-                >
-                  <img src={value} alt={label} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: form.image === value ? "rgba(197,160,89,0.1)" : "rgba(0,0,0,0.3)",
-                    display: "flex", alignItems: "flex-end", justifyContent: "center",
-                    padding: "6px",
-                  }}>
-                    <span style={{ fontSize: "0.65rem", color: "#fff", textAlign: "center", lineHeight: 1.2 }}>{label}</span>
-                  </div>
-                  {form.image === value && (
-                    <div style={{ position: "absolute", top: "6px", right: "6px", background: "var(--clr-gold)", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", color: "black", fontWeight: "bold" }}>✓</div>
-                  )}
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Multi selects */}
