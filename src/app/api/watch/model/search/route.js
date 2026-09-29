@@ -46,6 +46,33 @@ export async function GET(request) {
 
         const data = await response.json();
         watches = Array.isArray(data) ? data : (data.data || data.results || data.watches || []);
+
+        // If no watches found by name, it might be a brand name (e.g. they typed "Rolex")
+        if (watches.length === 0) {
+          const makesRes = await fetch(`https://${RAPIDAPI_HOST}/make`, {
+            headers: { 'x-rapidapi-key': RAPIDAPI_KEY, 'x-rapidapi-host': RAPIDAPI_HOST }
+          });
+          if (makesRes.ok) {
+            const makes = await makesRes.json();
+            const makesList = Array.isArray(makes) ? makes : (makes.data || []);
+            const matchedMake = makesList.find(m => {
+              const name = typeof m === 'string' ? m : (m.name || m.Make || m.brand || '');
+              return name.toLowerCase() === search.toLowerCase();
+            });
+            if (matchedMake) {
+              const makeId = typeof matchedMake === 'string' ? matchedMake : (matchedMake.id || matchedMake._id || matchedMake.makeId || matchedMake.MakeId || '');
+              if (makeId) {
+                const watchesRes = await fetch(`https://${RAPIDAPI_HOST}/watches/make/${makeId}/page/1/limit/30`, {
+                  headers: { 'x-rapidapi-key': RAPIDAPI_KEY, 'x-rapidapi-host': RAPIDAPI_HOST }
+                });
+                if (watchesRes.ok) {
+                  const watchesData = await watchesRes.json();
+                  watches = Array.isArray(watchesData) ? watchesData : (watchesData.data || watchesData.results || watchesData.watches || []);
+                }
+              }
+            }
+          }
+        }
       } else if (brandName) {
         // First get makes to find the makeId
         const makesRes = await fetch(`https://${RAPIDAPI_HOST}/make`, {
