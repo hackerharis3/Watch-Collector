@@ -35,17 +35,19 @@ export async function GET(request) {
         });
 
         if (!response.ok) {
-          if (response.status === 401 || response.status === 403) {
+          if (response.status === 404) {
+            watches = []; // No watches found, will trigger brand fallback
+          } else if (response.status === 401 || response.status === 403) {
             return NextResponse.json({ error: { code: 'unauthorized', message: 'Invalid or expired RapidAPI key.' } }, { status: 401 });
-          }
-          if (response.status === 429 || response.status === 402) {
+          } else if (response.status === 429 || response.status === 402) {
             throw new Error('API rate limit reached');
+          } else {
+            throw new Error(`RapidAPI returned ${response.status}`);
           }
-          throw new Error(`RapidAPI returned ${response.status}`);
+        } else {
+          const data = await response.json();
+          watches = Array.isArray(data) ? data : (data.data || data.results || data.watches || []);
         }
-
-        const data = await response.json();
-        watches = Array.isArray(data) ? data : (data.data || data.results || data.watches || []);
 
         // If no watches found by name, it might be a brand name (e.g. they typed "Rolex")
         if (watches.length === 0) {
