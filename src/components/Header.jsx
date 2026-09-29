@@ -48,14 +48,7 @@ export default function Header() {
           }}>
             Analyzer
           </a>
-          <a href="#discovery" className="nav-link" onClick={(e) => {
-            e.preventDefault();
-            setMenuOpen(false);
-            document.getElementById('discovery')?.scrollIntoView({ behavior: 'smooth' });
-            window.history.pushState(null, '', '#discovery');
-          }}>
-            Discovery
-          </a>
+
         </nav>
         <button
           className="mobile-menu-btn"

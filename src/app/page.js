@@ -3,7 +3,7 @@ import HeroSection from "../components/HeroSection";
 import GallerySection from "../components/GallerySection";
 import OccasionsSection from "../components/OccasionsSection";
 import AnalyzerSection from "../components/AnalyzerSection";
-import DiscoverySection from "../components/DiscoverySection";
+
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
         
         <AnalyzerSection />
         
-        <DiscoverySection />
+
       </main>
 
       <Footer />
