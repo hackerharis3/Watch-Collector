@@ -305,12 +305,12 @@ export default function AddWatchModal({ open, onClose, onAdd, onEdit, initialWat
   };
 
   const IMAGE_OPTIONS = [
-    { label: "Dress / Classic", value: "images/watch_dress_classic.png" },
-    { label: "Sports / G-Shock", value: "images/watch_sports_gshock.png" },
-    { label: "Casual / Swatch", value: "images/watch_casual_swatch.png" },
-    { label: "Orient / Bambino", value: "images/watch_orient_bambino.png" },
-    { label: "Digital / Retro", value: "images/watch_digital_retro.png" },
-    { label: "Diver / Automatic", value: "images/watch_automatic_diver.png" },
+    { label: "Dress / Classic", value: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80" },
+    { label: "Sports / G-Shock", value: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=400&q=80" },
+    { label: "Casual / Swatch", value: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=400&q=80" },
+    { label: "Orient / Bambino", value: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=400&q=80" },
+    { label: "Digital / Retro", value: "https://images.unsplash.com/photo-1584813539806-2538b8d918c6?auto=format&fit=crop&w=400&q=80" },
+    { label: "Diver / Automatic", value: "https://images.unsplash.com/photo-1548169874-53ce86f7d73f?auto=format&fit=crop&w=400&q=80" },
   ];
 
   return createPortal(
