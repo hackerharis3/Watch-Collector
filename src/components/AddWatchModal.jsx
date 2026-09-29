@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 const MOVEMENT_OPTIONS = ["Automatic", "Manual-Wind", "Quartz", "Tough Solar", "Kinetic", "Spring Drive", "Digital", "Eco-Drive"];
@@ -45,6 +45,148 @@ function MultiSelect({ options, value, onChange, label }) {
   );
 }
 
+function CustomSelect({ options, value, onChange, name, placeholder = "— Select —" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  const handleSelect = (val) => {
+    onChange({ target: { name, value: val } });
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: "100%",
+          background: "rgba(255,255,255,0.05)",
+          border: isOpen ? "1px solid var(--clr-gold)" : "1px solid rgba(197,160,89,0.25)",
+          borderRadius: "8px",
+          padding: "10px 14px",
+          color: value ? "var(--clr-text)" : "var(--clr-muted)",
+          fontSize: "0.92rem",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          transition: "all 0.2s ease",
+          boxSizing: "border-box",
+        }}
+      >
+        <span>{value || placeholder}</span>
+        <span style={{ 
+          fontSize: "0.6rem", 
+          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)", 
+          transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+          color: "var(--clr-gold)",
+          opacity: 0.7
+        }}>▼</span>
+      </div>
+      
+      {isOpen && (
+        <div style={{
+          position: "absolute",
+          top: "calc(100% + 8px)",
+          left: 0,
+          right: 0,
+          background: "rgba(255, 255, 255, 0.03)", // Highly translucent for glass effect
+          backdropFilter: "blur(16px) saturate(180%)", // Saturate helps the glass pop
+          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          border: "1px solid rgba(255, 255, 255, 0.12)", // Lighter border for glass edge
+          borderRadius: "12px",
+          padding: "6px",
+          zIndex: 9999,
+          maxHeight: "240px",
+          overflowY: "auto",
+          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)", // Diffuse shadow
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
+          animation: "dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+        }}>
+          <style>{`
+            @keyframes dropdownFade {
+              from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+              to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+            /* Custom scrollbar for webkit */
+            .glass-scroll::-webkit-scrollbar {
+              width: 6px;
+            }
+            .glass-scroll::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .glass-scroll::-webkit-scrollbar-thumb {
+              background: rgba(255, 255, 255, 0.2);
+              border-radius: 10px;
+            }
+            .glass-scroll::-webkit-scrollbar-thumb:hover {
+              background: rgba(255, 255, 255, 0.4);
+            }
+          `}</style>
+          <div className="glass-scroll" style={{ width: "100%", display: "flex", flexDirection: "column", gap: "2px" }}>
+          <div 
+            onClick={() => handleSelect("")}
+            style={{
+              padding: "10px 14px",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+              color: !value ? "var(--clr-gold)" : "rgba(255,255,255,0.7)",
+              background: !value ? "rgba(197,160,89,0.12)" : "transparent",
+              transition: "all 0.15s ease"
+            }}
+            onMouseOver={(e) => {
+              if (value) { e.currentTarget.style.background = "rgba(197, 160, 89, 0.2)"; e.currentTarget.style.color = "var(--clr-gold)"; }
+            }}
+            onMouseOut={(e) => {
+              if (value) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }
+            }}
+          >
+            {placeholder}
+          </div>
+          {options.map(opt => (
+            <div 
+              key={opt}
+              onClick={() => handleSelect(opt)}
+              style={{
+                padding: "10px 14px",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+                color: value === opt ? "var(--clr-gold)" : "rgba(255,255,255,0.85)",
+                background: value === opt ? "rgba(197,160,89,0.15)" : "transparent",
+                transition: "all 0.15s ease",
+                fontWeight: value === opt ? 600 : 400
+              }}
+              onMouseOver={(e) => {
+                if (value !== opt) { e.currentTarget.style.background = "rgba(197, 160, 89, 0.2)"; e.currentTarget.style.color = "var(--clr-gold)"; }
+              }}
+              onMouseOut={(e) => {
+                if (value !== opt) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }
+              }}
+            >
+              {opt}
+            </div>
+          ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Field({ label, name, value, onChange, placeholder, type = "text", options }) {
   const inputStyle = {
     width: "100%",
@@ -63,10 +205,7 @@ function Field({ label, name, value, onChange, placeholder, type = "text", optio
     <div style={{ marginBottom: "var(--space-md)" }}>
       <label style={{ display: "block", color: "var(--clr-muted)", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>{label}</label>
       {options ? (
-        <select name={name} value={value} onChange={onChange} style={{ ...inputStyle, cursor: "pointer" }}>
-          <option value="">— Select —</option>
-          {options.map((o) => <option key={o} value={o}>{o}</option>)}
-        </select>
+        <CustomSelect name={name} value={value} onChange={onChange} options={options} />
       ) : (
         <input
           type={type}
