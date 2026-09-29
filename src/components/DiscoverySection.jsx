@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
-const WATCH_API_BASE = 'http://localhost:3000/api/watch';
+const WATCH_API_BASE = '/api/watch';
 
 export default function DiscoverySection() {
   const [brands, setBrands] = useState([]);
