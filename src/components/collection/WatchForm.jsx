@@ -271,8 +271,8 @@ export default function WatchForm({ initialWatch, onSuccess, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: "800px", margin: "0 auto", padding: "var(--space-xl) 0" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-xl)" }}>
-        <h1 style={{ fontFamily: "var(--font-heritage)", fontSize: "2rem", color: "var(--clr-text-primary)" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "var(--space-md)", marginBottom: "var(--space-xl)" }}>
+        <h1 style={{ fontFamily: "var(--font-heritage)", fontSize: "clamp(1.5rem, 5vw, 2rem)", color: "var(--clr-text-primary)", margin: 0 }}>
           {initialWatch ? "Edit Watch Passport" : "Add to Vault"}
         </h1>
         <div style={{ display: "flex", gap: "var(--space-md)" }}>
