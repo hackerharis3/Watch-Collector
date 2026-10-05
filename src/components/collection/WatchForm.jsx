@@ -197,9 +197,9 @@ function ImageGalleryUpload({ photos, onChange }) {
         <input 
           type="text" value={newUrl} onChange={e => setNewUrl(e.target.value)}
           placeholder="https://... (Add additional photo URLs)"
-          style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "8px 12px", color: "var(--clr-text-primary)", fontSize: "0.85rem", outline: "none" }}
+          style={{ flex: 1, minWidth: 0, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "8px 12px", color: "var(--clr-text-primary)", fontSize: "0.85rem", outline: "none" }}
         />
-        <button type="button" onClick={handleAdd} className="btn btn-primary" style={{ padding: "8px 16px", fontSize: "0.85rem" }}>Add</button>
+        <button type="button" onClick={handleAdd} className="btn btn-primary" style={{ flexShrink: 0, whiteSpace: "nowrap", padding: "8px 16px", fontSize: "0.85rem" }}>Add</button>
       </div>
       
       {photos.length > 0 && (
