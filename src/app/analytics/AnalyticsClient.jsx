@@ -111,7 +111,7 @@ export default function AnalyticsClient({ watches }) {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: "var(--space-2xl)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 350px), 1fr))", gap: "var(--space-2xl)" }}>
         {/* Brand Distribution (Pie Chart) */}
         <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--clr-border)", borderRadius: "var(--radius-lg)", padding: "var(--space-xl)", animationDelay: "0.2s" }} className="animate-in visible">
           <h3 style={{ fontFamily: "var(--font-heritage)", fontSize: "1.2rem", color: "white", marginBottom: "var(--space-xl)", textAlign: "center" }}>Brand Distribution</h3>
@@ -127,7 +127,7 @@ export default function AnalyticsClient({ watches }) {
         {/* Complications Coverage */}
         <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--clr-border)", borderRadius: "var(--radius-lg)", padding: "var(--space-xl)", gridColumn: "1 / -1", animationDelay: "0.4s" }} className="animate-in visible">
           <h3 style={{ fontFamily: "var(--font-heritage)", fontSize: "1.2rem", color: "white", marginBottom: "var(--space-xl)" }}>Top Complications</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "var(--space-xl)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "var(--space-xl)" }}>
              <BarChart data={complicationData} color="rgba(59, 130, 246, 0.8)" />
              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "var(--space-lg)" }}>
                 <p style={{ color: "var(--clr-text-secondary)", lineHeight: 1.6 }}>

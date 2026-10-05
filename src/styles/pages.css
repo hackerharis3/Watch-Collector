@@ -336,7 +336,7 @@
 
 .matrix-row {
   display: grid;
-  grid-template-columns: 120px repeat(var(--cols, 4), 1fr);
+  grid-template-columns: 120px repeat(var(--cols, 4), minmax(70px, 1fr));
   gap: var(--space-xs);
   align-items: center;
 }

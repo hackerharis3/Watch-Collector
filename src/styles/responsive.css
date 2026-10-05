@@ -114,7 +114,7 @@
   }
 
   .matrix-row {
-    grid-template-columns: 90px repeat(var(--cols, 4), 1fr);
+    grid-template-columns: 90px repeat(var(--cols, 4), minmax(50px, 1fr));
   }
 
   .passport-grid {
