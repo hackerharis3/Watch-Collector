@@ -8,7 +8,7 @@ const TYPE_OPTIONS = ["Dress", "Sports", "Vintage", "Casual", "Fashion", "Diver"
 const COMPLICATION_OPTIONS = ["None", "Date", "Day", "Chronograph", "Moon Phase", "Earth Phase", "GMT", "Alarm", "World Time", "Timer", "Tachymeter", "Power Reserve"];
 const FEATURE_OPTIONS = ["Lume", "Exhibition Back", "Rotating Bezel", "Bluetooth", "LED Backlight", "Sapphire Crystal", "Ceramic Bezel", "Quick-Release Strap"];
 const OCCASION_OPTIONS = ["Formal", "Business Casual", "Casual", "Sports", "Outdoor", "Evening", "Travel"];
-const CRYSTAL_OPTIONS = ["Sapphire", "Mineral", "Acrylic", "Hardlex", "Mineral (Domed)", "Sapphire (Domed)"];
+const CRYSTAL_OPTIONS = ["Sapphire", "Mineral", "Acrylic", "Hardlex", "Mineral (Domed)", "Sapphire (Domed)", "Bio-Sourced Glass"];
 const MATERIAL_OPTIONS = ["Stainless Steel", "Titanium", "Gold", "Rose Gold", "Ceramic", "Carbon/Resin", "Resin", "Bio-Sourced Plastic", "Aluminium"];
 const STATUS_OPTIONS = ["active", "sold", "gifted", "lost", "retired"];
 
