@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 // -- Options (Imported or defined here)
 const MOVEMENT_OPTIONS = ["Automatic", "Manual-Wind", "Quartz", "Tough Solar", "Kinetic", "Spring Drive", "Digital", "Eco-Drive"];
 const TYPE_OPTIONS = ["Dress", "Sports", "Vintage", "Casual", "Fashion", "Diver", "Pilot", "Field", "Digital", "Retro", "Classic"];
-const COMPLICATION_OPTIONS = ["Date", "Day", "Chronograph", "Moon Phase", "GMT", "Alarm", "World Time", "Timer", "Tachymeter", "Power Reserve"];
+const COMPLICATION_OPTIONS = ["None", "Date", "Day", "Chronograph", "Moon Phase", "GMT", "Alarm", "World Time", "Timer", "Tachymeter", "Power Reserve"];
 const FEATURE_OPTIONS = ["Lume", "Exhibition Back", "Rotating Bezel", "Bluetooth", "LED Backlight", "Sapphire Crystal", "Ceramic Bezel", "Quick-Release Strap"];
 const OCCASION_OPTIONS = ["Formal", "Business Casual", "Casual", "Sports", "Outdoor", "Evening", "Travel"];
 const CRYSTAL_OPTIONS = ["Sapphire", "Mineral", "Acrylic", "Hardlex", "Mineral (Domed)", "Sapphire (Domed)"];
