@@ -100,10 +100,10 @@ function CustomSelect({ options, value, onChange, name, placeholder = "— Selec
       {isOpen && (
         <div 
           style={{
-            position: "absolute", top: "calc(100% + 8px)", left: 0, width: "100%", zIndex: 50,
-            background: "rgba(10, 15, 25, 0.65)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-            border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
-            maxHeight: "220px", overflowY: "auto", overflowX: "hidden", padding: "6px", display: "flex", flexDirection: "column", gap: "4px"
+            position: "absolute", top: "calc(100% + 8px)", left: 0, width: "100%", zIndex: 9999,
+            background: "rgba(15, 20, 30, 0.4)", backdropFilter: "blur(32px) saturate(180%)", WebkitBackdropFilter: "blur(32px) saturate(180%)",
+            border: "1px solid rgba(197, 160, 89, 0.2)", borderRadius: "12px", boxShadow: "0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.1)",
+            maxHeight: "220px", overflowY: "auto", overflowX: "hidden", padding: "8px", display: "flex", flexDirection: "column", gap: "4px"
           }}
           className="liquid-scrollbar"
         >
@@ -114,7 +114,7 @@ function CustomSelect({ options, value, onChange, name, placeholder = "— Selec
               onClick={() => handleSelect(opt)}
               style={{
                 width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: "8px", border: "none",
-                background: value === opt ? "rgba(197, 160, 89, 0.15)" : "transparent",
+                background: value === opt ? "rgba(197, 160, 89, 0.2)" : "transparent",
                 color: value === opt ? "var(--clr-gold)" : "var(--clr-text-primary)",
                 fontSize: "0.9rem", cursor: "pointer", transition: "all 0.2s ease",
               }}
@@ -160,11 +160,11 @@ function Field({ label, name, value, onChange, type = "text", options }) {
 function CollapsibleSection({ title, defaultOpen = false, children }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div style={{ marginBottom: "var(--space-lg)", background: "rgba(255,255,255,0.02)", border: "1px solid var(--clr-border)", borderRadius: "var(--radius-lg)", overflow: "hidden" }}>
+    <div style={{ marginBottom: "var(--space-lg)", background: "rgba(255,255,255,0.02)", border: "1px solid var(--clr-border)", borderRadius: "var(--radius-lg)", overflow: "visible" }}>
       <button 
         type="button" 
         onClick={() => setOpen(!open)}
-        style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "var(--space-md) var(--space-lg)", background: "rgba(255,255,255,0.02)", borderBottom: open ? "1px solid var(--clr-border)" : "none" }}
+        style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "var(--space-md) var(--space-lg)", background: "rgba(255,255,255,0.02)", borderBottom: open ? "1px solid var(--clr-border)" : "none", borderTopLeftRadius: "var(--radius-lg)", borderTopRightRadius: "var(--radius-lg)", cursor: "pointer", border: "none" }}
       >
         <span style={{ fontFamily: "var(--font-heritage)", fontSize: "1.1rem", fontWeight: 600, color: "var(--clr-gold)" }}>{title}</span>
         <span style={{ color: "var(--clr-gold)", transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>▼</span>
