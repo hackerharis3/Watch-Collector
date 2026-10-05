@@ -202,7 +202,7 @@
     display: inline;
   }
 
-  .mobile-menu-btn {
+  .app-mobile-menu-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -214,7 +214,7 @@
     cursor: pointer;
   }
 
-  .mobile-menu-btn svg {
+  .app-mobile-menu-btn svg {
     width: 24px;
     height: 24px;
   }

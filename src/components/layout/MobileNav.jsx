@@ -73,7 +73,7 @@ export default function MobileNav() {
           </div>
         </Link>
         <button 
-          className="mobile-menu-btn"
+          className="app-mobile-menu-btn"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
