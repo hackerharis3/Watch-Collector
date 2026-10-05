@@ -82,10 +82,10 @@ export default function HeroSection() {
           </div>
         </div>
         <div className="hero-cta">
-          <Link href="#gallery" className="btn btn-primary">
+          <Link href="/collection" className="btn btn-primary">
             Enter the Vault
           </Link>
-          <Link href="#discovery" className="btn btn-secondary">
+          <Link href="/discover" className="btn btn-secondary">
             Discover Watches
           </Link>
         </div>

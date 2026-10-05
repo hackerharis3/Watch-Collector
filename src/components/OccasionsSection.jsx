@@ -40,15 +40,18 @@ export default function OccasionsSection() {
   const [selectedWatch, setSelectedWatch] = useState(null);
 
   useEffect(() => {
-    // Load from localStorage on mount
-    const saved = localStorage.getItem("vault_watches");
-    if (saved) {
+    const fetchWatches = async () => {
       try {
-        setWatches(JSON.parse(saved));
+        const res = await fetch("/api/collection");
+        if (res.ok) {
+          const data = await res.json();
+          setWatches(data.watches || []);
+        }
       } catch (e) {
-        setWatches([]);
+        console.error("Failed to fetch watches:", e);
       }
-    }
+    };
+    fetchWatches();
   }, []);
 
   const getMatchesForOccasion = (occasion) => {
@@ -99,6 +102,8 @@ export default function OccasionsSection() {
                 onClick={() => handleOccasionClick(occ.id)}
                 style={{
                   background: isActive ? "var(--clr-gold-glow)" : "var(--glass-bg)",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
                   borderColor: isActive ? "var(--clr-gold)" : "var(--clr-border)",
                   color: isActive ? "var(--clr-gold)" : "inherit",
                   position: "relative",
@@ -106,7 +111,6 @@ export default function OccasionsSection() {
                   borderRadius: "var(--radius-lg)",
                   cursor: "pointer",
                   transition: "var(--transition-base)",
-                  border: "1px solid",
                 }}
               >
                 <span className="occasion-count">{matchCount} match{matchCount !== 1 ? 'es' : ''}</span>

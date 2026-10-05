@@ -1,0 +1,77 @@
+/* ── Animated Background ── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(197, 160, 89, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(197, 160, 89, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.bg-gradient-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-gradient-orbs::before,
+.bg-gradient-orbs::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+
+.bg-gradient-orbs::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.12), transparent 70%);
+  top: -200px;
+  right: -100px;
+}
+
+.bg-gradient-orbs::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(100, 80, 40, 0.1), transparent 70%);
+  bottom: -150px;
+  left: -100px;
+  animation-delay: -10s;
+}
+
+@keyframes orbFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(50px, -30px) scale(1.1); }
+}
+
+
+/* ── Scroll animations ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.animate-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+

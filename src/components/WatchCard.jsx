@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 
 export default function WatchCard({ watch, onClick }) {
   // Extract fields gracefully
@@ -19,7 +19,7 @@ export default function WatchCard({ watch, onClick }) {
   } = watch;
 
   // Use dummy image if none is provided
-  const imageUrl = image || "images/watch_sports_gshock.png";
+  const imageUrl = image || "/images/watch_sports_gshock.png"; // Ensure absolute path for next/image/link stability
   
   // Icon helper
   const getMovementIcon = (mov) => {
@@ -32,11 +32,13 @@ export default function WatchCard({ watch, onClick }) {
     return "⏱️";
   };
 
+  // We wrap in Link but keep onClick for backward compatibility if needed, 
+  // but preferably just use Link.
   return (
-    <div
+    <Link 
+      href={`/collection/${id}`}
       className="watch-card animate-in visible"
-      onClick={() => onClick && onClick(watch)}
-      style={{ cursor: onClick ? "pointer" : "default", position: "relative" }}
+      style={{ textDecoration: "none", color: "inherit", display: "block" }}
     >
       <div className="watch-card-image">
         {/* We use a standard img tag for simplicity, mapping to vanilla CSS */}
@@ -85,6 +87,6 @@ export default function WatchCard({ watch, onClick }) {
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

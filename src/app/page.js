@@ -1,29 +1,17 @@
-import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import GallerySection from "../components/GallerySection";
-import OccasionsSection from "../components/OccasionsSection";
-import AnalyzerSection from "../components/AnalyzerSection";
 
-import Footer from "../components/Footer";
+export const metadata = {
+  title: "Dashboard — Horological Vault",
+  description: "Your digital watch vault dashboard.",
+};
 
 export default function Home() {
   return (
     <>
-      <Header />
-      
       <main>
         <HeroSection />
-        
-        <GallerySection />
-        
-        <OccasionsSection />
-        
-        <AnalyzerSection />
-        
-
+        {/* Additional dashboard components will go here */}
       </main>
-
-      <Footer />
     </>
   );
 }

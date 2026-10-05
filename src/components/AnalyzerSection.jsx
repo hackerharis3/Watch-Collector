@@ -17,15 +17,18 @@ export default function AnalyzerSection() {
   const [watches, setWatches] = useState([]);
 
   useEffect(() => {
-    // Load from localStorage on mount
-    const saved = localStorage.getItem("vault_watches");
-    if (saved) {
+    const fetchWatches = async () => {
       try {
-        setWatches(JSON.parse(saved));
+        const res = await fetch("/api/collection");
+        if (res.ok) {
+          const data = await res.json();
+          setWatches(data.watches || []);
+        }
       } catch (e) {
-        setWatches([]);
+        console.error("Failed to fetch watches:", e);
       }
-    }
+    };
+    fetchWatches();
   }, []);
 
   const matrix = useMemo(() => {
