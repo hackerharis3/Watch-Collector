@@ -227,28 +227,28 @@ export default function WatchForm({ initialWatch, onSuccess, onCancel }) {
       {error && <div style={{ color: "var(--clr-danger)", marginBottom: "var(--space-md)", background: "rgba(248,113,113,0.1)", padding: "12px", borderRadius: "8px" }}>{error}</div>}
 
       <CollapsibleSection title="Core Information" defaultOpen={true}>
-        <div style={{ display: "flex", gap: "var(--space-md)" }}>
-          <div style={{ flex: 1 }}><Field label="Brand *" name="brand" value={form.brand} onChange={handleChange} /></div>
-          <div style={{ flex: 1 }}><Field label="Model *" name="model" value={form.model} onChange={handleChange} /></div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-md)" }}>
+          <Field label="Brand *" name="brand" value={form.brand} onChange={handleChange} />
+          <Field label="Model *" name="model" value={form.model} onChange={handleChange} />
         </div>
-        <div style={{ display: "flex", gap: "var(--space-md)" }}>
-          <div style={{ flex: 1 }}><Field label="Image URL (Primary Cover)" name="image" value={form.image} onChange={handleChange} placeholder="https://..." /></div>
-          <div style={{ flex: 1 }}><Field label="Status" name="status" value={form.status} onChange={handleChange} options={STATUS_OPTIONS} /></div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-md)" }}>
+          <Field label="Image URL (Primary Cover)" name="image" value={form.image} onChange={handleChange} placeholder="https://..." />
+          <Field label="Status" name="status" value={form.status} onChange={handleChange} options={STATUS_OPTIONS} />
         </div>
         
         <ImageGalleryUpload photos={form.photos || []} onChange={handleArrayChange("photos")} />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-sm)", marginTop: "var(--space-md)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-sm)", marginTop: "var(--space-md)", flexWrap: "wrap" }}>
           <input type="checkbox" id="in_collection" name="in_collection" checked={form.in_collection} onChange={e => setForm(prev => ({...prev, in_collection: e.target.checked}))} style={{ width: "16px", height: "16px", accentColor: "var(--clr-gold)" }} />
           <label htmlFor="in_collection" style={{ color: "var(--clr-text-primary)", fontSize: "0.9rem" }}>I currently own this watch (uncheck for Wishlist)</label>
         </div>
       </CollapsibleSection>
 
       <CollapsibleSection title="Horological Identity" defaultOpen={true}>
-        <div style={{ display: "flex", gap: "var(--space-md)" }}>
-          <div style={{ flex: 1 }}><Field label="Movement" name="movement" value={form.movement} onChange={handleChange} options={MOVEMENT_OPTIONS} /></div>
-          <div style={{ flex: 1 }}><Field label="Caliber" name="caliber" value={form.caliber} onChange={handleChange} /></div>
-          <div style={{ flex: 1 }}><Field label="Year" name="year" value={form.year} onChange={handleChange} placeholder="e.g. 2024 or 1990s" /></div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "var(--space-md)" }}>
+          <Field label="Movement" name="movement" value={form.movement} onChange={handleChange} options={MOVEMENT_OPTIONS} />
+          <Field label="Caliber" name="caliber" value={form.caliber} onChange={handleChange} />
+          <Field label="Year" name="year" value={form.year} onChange={handleChange} placeholder="e.g. 2024 or 1990s" />
         </div>
         <MultiSelect label="Watch Types" options={TYPE_OPTIONS} value={form.type} onChange={handleArrayChange("type")} />
         <MultiSelect label="Complications" options={COMPLICATION_OPTIONS} value={form.complications} onChange={handleArrayChange("complications")} />
@@ -256,7 +256,7 @@ export default function WatchForm({ initialWatch, onSuccess, onCancel }) {
       </CollapsibleSection>
 
       <CollapsibleSection title="Technical Specifications">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "var(--space-md)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-md)" }}>
           <Field label="Case Diameter" name="case_diameter" value={form.case_diameter} onChange={handleChange} placeholder="e.g. 40mm" />
           <Field label="Case Material" name="case_material" value={form.case_material} onChange={handleChange} options={MATERIAL_OPTIONS} />
           <Field label="Crystal" name="crystal" value={form.crystal} onChange={handleChange} options={CRYSTAL_OPTIONS} />
@@ -276,7 +276,7 @@ export default function WatchForm({ initialWatch, onSuccess, onCancel }) {
       </CollapsibleSection>
 
       <CollapsibleSection title="Provenance & Value">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-md)" }}>
           <Field label="Reference Number" name="reference_number" value={form.reference_number} onChange={handleChange} />
           <Field label="Serial Number" name="serial_number" value={form.serial_number} onChange={handleChange} />
           

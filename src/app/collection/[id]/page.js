@@ -115,7 +115,7 @@ export default async function WatchPassportPage({ params }) {
               </h2>
               <div className="specs-grid" style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: "1.5rem"
               }}>
                 <SpecItem label="Reference No." value={watch.reference_number} />
@@ -262,39 +262,6 @@ export default async function WatchPassportPage({ params }) {
         </div>
       </div>
 
-      <style>{`
-        .btn-back {
-          position: absolute;
-          top: 2rem;
-          left: 3rem;
-          color: white;
-          textDecoration: none;
-          font-family: var(--font-mono);
-          font-size: 0.85rem;
-          background: rgba(0,0,0,0.5);
-          backdrop-filter: blur(8px);
-          padding: 0.5rem 1rem;
-          border-radius: 999px;
-          border: 1px solid rgba(255,255,255,0.1);
-          transition: var(--transition-fast);
-        }
-        .btn-back:hover {
-          background: rgba(255,255,255,0.1);
-        }
-        
-        @media (max-width: 768px) {
-          .passport-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .passport-hero {
-            padding: 2rem 1rem !important;
-          }
-          .btn-back {
-            top: 1rem;
-            left: 1rem;
-          }
-        }
-      `}</style>
     </div>
   );
 }
