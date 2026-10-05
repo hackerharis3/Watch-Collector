@@ -261,7 +261,7 @@ export default function WatchForm({ initialWatch, onSuccess, onCancel }) {
       const data = await res.json();
       
       if (!res.ok) throw new Error(data.error || "Failed to save watch");
-      if (onSuccess) onSuccess(data.data);
+      if (onSuccess) onSuccess(data.watch);
     } catch (err) {
       setError(err.message);
     } finally {
