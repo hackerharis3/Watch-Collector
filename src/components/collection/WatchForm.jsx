@@ -62,20 +62,79 @@ function MultiSelect({ options, value, onChange, label }) {
 }
 
 function CustomSelect({ options, value, onChange, name, placeholder = "— Select —" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  // Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (opt) => {
+    // Mimic the event object for the parent's handleChange
+    onChange({ target: { name, value: opt } });
+    setIsOpen(false);
+  };
+
   return (
-    <select
-      name={name}
-      value={value || ""}
-      onChange={onChange}
-      style={{
-        width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(197,160,89,0.25)",
-        borderRadius: "8px", padding: "10px 14px", color: "var(--clr-text-primary)", fontSize: "0.92rem",
-        outline: "none", appearance: "none"
-      }}
-    >
-      <option value="" disabled style={{ color: "black" }}>{placeholder}</option>
-      {options.map(opt => <option key={opt} value={opt} style={{ color: "black" }}>{opt}</option>)}
-    </select>
+    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: "100%", background: "rgba(255,255,255,0.05)", border: isOpen ? "1px solid var(--clr-gold)" : "1px solid rgba(197,160,89,0.25)",
+          borderRadius: "8px", padding: "10px 14px", color: value ? "var(--clr-text-primary)" : "var(--clr-text-muted)", fontSize: "0.92rem",
+          outline: "none", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", transition: "all 0.2s ease"
+        }}
+      >
+        <span>{value || placeholder}</span>
+        <span style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease", color: "var(--clr-gold)", fontSize: "0.8rem" }}>▼</span>
+      </button>
+
+      {isOpen && (
+        <div 
+          style={{
+            position: "absolute", top: "calc(100% + 8px)", left: 0, width: "100%", zIndex: 50,
+            background: "rgba(10, 15, 25, 0.65)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+            border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "12px", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+            maxHeight: "220px", overflowY: "auto", overflowX: "hidden", padding: "6px", display: "flex", flexDirection: "column", gap: "4px"
+          }}
+          className="liquid-scrollbar"
+        >
+          {options.map(opt => (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => handleSelect(opt)}
+              style={{
+                width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: "8px", border: "none",
+                background: value === opt ? "rgba(197, 160, 89, 0.15)" : "transparent",
+                color: value === opt ? "var(--clr-gold)" : "var(--clr-text-primary)",
+                fontSize: "0.9rem", cursor: "pointer", transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (value !== opt) {
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (value !== opt) {
+                  e.currentTarget.style.background = "transparent";
+                }
+              }}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

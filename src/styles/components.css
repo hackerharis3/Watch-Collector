@@ -379,3 +379,20 @@
 
 
 
+
+/* Liquid Scrollbar for Dropdowns */
+.liquid-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.liquid-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+.liquid-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.4);
+  border-radius: 8px;
+}
+.liquid-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 160, 89, 0.8);
+}
+
