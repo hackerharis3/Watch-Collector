@@ -1025,5 +1025,24 @@
   margin-top: var(--space-sm);
 }
 
+/* ── UI Elements ── */
+.btn-back {
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: var(--transition-fast);
+  z-index: 10;
+}
 
-
+.btn-back:hover {
+  background: rgba(255,255,255,0.1);
+}
