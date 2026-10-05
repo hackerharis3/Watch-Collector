@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -55,6 +55,7 @@ const items = [
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (href) => {
     if (href === "/") return pathname === "/";
@@ -65,13 +66,58 @@ export default function MobileNav() {
     <>
       {/* Mobile Top Header */}
       <div className="mobile-header">
-        <Link href="/" className="mobile-header-logo">
+        <Link href="/" className="mobile-header-logo" onClick={() => setIsMenuOpen(false)}>
           <div className="sidebar-logo-icon">⌚</div>
           <div className="sidebar-logo-text">
             Horological <span>Vault</span>
           </div>
         </Link>
+        <button 
+          className="mobile-menu-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          )}
+        </button>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setIsMenuOpen(false)}>
+          <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-section">
+              <h3>Tools & Analytics</h3>
+              <Link href="/analytics" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
+                Analytics
+              </Link>
+              <Link href="/coverage" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
+                Gap Analyzer
+              </Link>
+              <Link href="/match" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
+                Occasion Match
+              </Link>
+            </div>
+            
+            <div className="mobile-menu-section">
+              <h3>More</h3>
+              <Link href="/wishlist" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
+                Wishlist
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Bottom Tab Bar */}
       <nav className="mobile-nav">
