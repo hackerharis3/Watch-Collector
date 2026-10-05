@@ -109,6 +109,7 @@ const navSections = [
     id: "tools",
     label: "Tools",
     items: [
+      { label: "Analytics", href: "/analytics", icon: "analytics" },
       { label: "Occasion Match", href: "/match", icon: "match" },
       { label: "Gap Analyzer", href: "/coverage", icon: "coverage" },
     ],
@@ -117,7 +118,6 @@ const navSections = [
     id: "coming",
     label: "Coming Soon",
     items: [
-      { label: "Analytics", href: "/analytics", icon: "analytics", disabled: true },
       { label: "Wrist-Time", href: "/wrist-time", icon: "wristtime", disabled: true },
       { label: "Journal", href: "/journal", icon: "journal", disabled: true },
       { label: "Service Log", href: "/service", icon: "service", disabled: true },
