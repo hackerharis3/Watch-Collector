@@ -265,6 +265,7 @@
 
 .wt-entry-meta {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-sm);
   margin: 4px 0;
   font-size: 0.8rem;
@@ -367,6 +368,12 @@
   display: flex;
   gap: var(--space-md);
   margin-bottom: var(--space-sm);
+}
+
+.wt-timeline-watch > div,
+.wt-entry-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .wt-timeline-img {
