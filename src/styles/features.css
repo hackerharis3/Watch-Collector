@@ -340,7 +340,7 @@
   border-radius: 50%;
   position: absolute;
   left: 15px;
-  top: 6px;
+  top: 30px;
   box-shadow: 0 0 0 4px var(--clr-bg-deep);
 }
 
