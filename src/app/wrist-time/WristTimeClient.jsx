@@ -200,16 +200,31 @@ export default function WristTimeClient() {
     setSelectedDate(key === selectedDate ? null : key);
   };
 
-  const openLogModal = (dateKey) => {
-    setLogForm({
-      watch_id: watches.length > 0 ? watches[0].id : "",
-      date: dateKey || toDateKey(new Date()),
-      occasion: "",
-      outfit_notes: "",
-      weather: "",
-      rating: null,
-      notes: "",
-    });
+  const openLogModal = (dateKeyOrLog) => {
+    if (typeof dateKeyOrLog === "object" && dateKeyOrLog !== null) {
+      // Edit mode
+      setLogForm({
+        id: dateKeyOrLog.id,
+        watch_id: dateKeyOrLog.watch_id,
+        date: toDateKey(dateKeyOrLog.date),
+        occasion: dateKeyOrLog.occasion || "",
+        outfit_notes: dateKeyOrLog.outfit_notes || "",
+        weather: dateKeyOrLog.weather || "",
+        rating: dateKeyOrLog.rating || null,
+        notes: dateKeyOrLog.notes || "",
+      });
+    } else {
+      // Create mode
+      setLogForm({
+        watch_id: watches.length > 0 ? watches[0].id : "",
+        date: dateKeyOrLog || toDateKey(new Date()),
+        occasion: "",
+        outfit_notes: "",
+        weather: "",
+        rating: null,
+        notes: "",
+      });
+    }
     setShowLogModal(true);
   };
 
@@ -218,8 +233,12 @@ export default function WristTimeClient() {
     if (!logForm.watch_id) return;
     setSubmitting(true);
     try {
-      const res = await fetch("/api/wear-log", {
-        method: "POST",
+      const isEdit = !!logForm.id;
+      const url = isEdit ? `/api/wear-log/${logForm.id}` : "/api/wear-log";
+      const method = isEdit ? "PATCH" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...logForm,
@@ -229,7 +248,11 @@ export default function WristTimeClient() {
       });
       const data = await res.json();
       if (data.success) {
-        setWearLogs((prev) => [data.log, ...prev]);
+        if (isEdit) {
+          setWearLogs((prev) => prev.map((l) => (l.id === data.log.id ? data.log : l)));
+        } else {
+          setWearLogs((prev) => [data.log, ...prev]);
+        }
         setShowLogModal(false);
       }
     } catch (err) {
@@ -412,7 +435,10 @@ export default function WristTimeClient() {
                               {log.notes && <div className="wt-entry-notes">{log.notes}</div>}
                             </div>
                           </div>
-                          <button className="wt-entry-delete" onClick={() => handleDeleteLog(log.id)} title="Remove entry">×</button>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center", padding: "0 var(--space-sm)" }}>
+                            <button className="wt-entry-delete" onClick={() => openLogModal(log)} title="Edit entry" style={{ fontSize: "1.1rem" }}>✎</button>
+                            <button className="wt-entry-delete" onClick={() => handleDeleteLog(log.id)} title="Remove entry">×</button>
+                          </div>
                         </div>
                       );
                     })}
@@ -465,6 +491,10 @@ export default function WristTimeClient() {
                             {log.notes && <span>📝 {log.notes}</span>}
                           </div>
                         )}
+                        <div style={{ position: "absolute", top: "15px", right: "15px", display: "flex", gap: "10px" }}>
+                          <button className="wt-entry-delete" onClick={() => openLogModal(log)} title="Edit entry" style={{ fontSize: "1.1rem" }}>✎</button>
+                          <button className="wt-entry-delete" onClick={() => handleDeleteLog(log.id)} title="Remove entry">×</button>
+                        </div>
                       </div>
                     </div>
                   );
