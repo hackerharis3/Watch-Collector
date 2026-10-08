@@ -1,10 +1,10 @@
-import OccasionsSection from "../../components/OccasionsSection";
+import MatchClient from "./MatchClient";
 
 export const metadata = {
-  title: "Occasion Match — Horological Vault",
-  description: "Find the perfect watch from your collection for any occasion or dress code.",
+  title: "Watch Match — Horological Vault",
+  description: "Find the perfect watch for any occasion, outfit, or weather. Smart suggestions based on your collection and wear history.",
 };
 
 export default function MatchPage() {
-  return <OccasionsSection />;
+  return <MatchClient />;
 }

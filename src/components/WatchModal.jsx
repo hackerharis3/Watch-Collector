@@ -176,8 +176,61 @@ export default function WatchModal({ watch, onClose, onDelete, onEdit }) {
             </div>
           </div>
 
+          {/* Wear Today Quick Action */}
+          {watch.in_collection && (
+            <div style={{ marginTop: "var(--space-xl)", textAlign: "center", borderTop: "1px solid var(--clr-border)", paddingTop: "var(--space-md)" }}>
+              <button
+                onClick={async (e) => {
+                  const btn = e.target;
+                  const originalText = btn.innerHTML;
+                  btn.innerHTML = "Logging...";
+                  btn.disabled = true;
+                  try {
+                    const res = await fetch("/api/wear-log", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        watch_id: watch.id,
+                        date: new Date().toISOString(),
+                      }),
+                    });
+                    if (res.ok) {
+                      btn.innerHTML = "✅ Logged for Today";
+                      setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                      }, 2000);
+                    } else {
+                      btn.innerHTML = "❌ Failed to Log";
+                      btn.disabled = false;
+                    }
+                  } catch (err) {
+                    btn.innerHTML = "❌ Error";
+                    btn.disabled = false;
+                  }
+                }}
+                style={{
+                  background: "linear-gradient(135deg, var(--clr-gold), var(--clr-gold-dark))",
+                  color: "var(--clr-bg-deep)",
+                  border: "none",
+                  padding: "12px 20px",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  width: "100%",
+                  transition: "all 0.2s",
+                  marginBottom: "var(--space-md)"
+                }}
+                onMouseOver={(e) => (e.target.style.transform = "translateY(-2px)")}
+                onMouseOut={(e) => (e.target.style.transform = "none")}
+              >
+                ⌚ I&apos;m Wearing This Today
+              </button>
+            </div>
+          )}
+
           {/* Delete Button */}
-          <div style={{ marginTop: "var(--space-xl)", textAlign: "center", borderTop: "1px solid var(--clr-border)", paddingTop: "var(--space-md)" }}>
+          <div style={{ marginTop: "var(--space-md)", textAlign: "center", borderTop: "1px solid var(--clr-border)", paddingTop: "var(--space-md)" }}>
             <button
               onClick={() => {
                 if (window.confirm("Are you sure you want to permanently delete this watch?")) {

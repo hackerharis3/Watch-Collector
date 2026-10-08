@@ -107,6 +107,9 @@ export default function MobileNav() {
               <Link href="/match" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
                 Occasion Match
               </Link>
+              <Link href="/wrist-time" className="mobile-menu-link" onClick={() => setIsMenuOpen(false)}>
+                Wrist-Time
+              </Link>
             </div>
             
             <div className="mobile-menu-section">
