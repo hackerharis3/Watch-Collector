@@ -249,9 +249,15 @@ export default function WristTimeClient() {
       const data = await res.json();
       if (data.success) {
         if (isEdit) {
-          setWearLogs((prev) => prev.map((l) => (l.id === data.log.id ? data.log : l)));
+          setWearLogs((prev) => {
+            const updated = prev.map((l) => (l.id === data.log.id ? data.log : l));
+            return updated.sort((a, b) => new Date(b.date) - new Date(a.date));
+          });
         } else {
-          setWearLogs((prev) => [data.log, ...prev]);
+          setWearLogs((prev) => {
+            const updated = [data.log, ...prev];
+            return updated.sort((a, b) => new Date(b.date) - new Date(a.date));
+          });
         }
         setShowLogModal(false);
       }
