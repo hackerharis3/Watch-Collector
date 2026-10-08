@@ -87,6 +87,72 @@ export default function WatchCard({ watch, onClick }) {
           ))}
         </div>
       </div>
+      
+      {in_collection && (
+        <div style={{ padding: "0 var(--space-lg) var(--space-lg)" }}>
+          <button
+            onClick={async (e) => {
+              e.preventDefault(); // Prevent link navigation
+              const btn = e.target;
+              const originalText = btn.innerHTML;
+              btn.innerHTML = "Logging...";
+              btn.disabled = true;
+              try {
+                const res = await fetch("/api/wear-log", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    watch_id: id,
+                    date: new Date().toISOString(),
+                  }),
+                });
+                if (res.ok) {
+                  btn.innerHTML = "✅ Logged";
+                  btn.style.borderColor = "var(--clr-success)";
+                  btn.style.color = "var(--clr-success)";
+                  setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.borderColor = "";
+                    btn.style.color = "";
+                  }, 2000);
+                } else {
+                  btn.innerHTML = "❌ Failed";
+                  btn.disabled = false;
+                }
+              } catch (err) {
+                btn.innerHTML = "❌ Error";
+                btn.disabled = false;
+              }
+            }}
+            className="watch-card-wear-btn"
+            style={{
+              width: "100%",
+              padding: "8px",
+              background: "rgba(197, 160, 89, 0.1)",
+              border: "1px solid rgba(197, 160, 89, 0.3)",
+              borderRadius: "4px",
+              color: "var(--clr-gold)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              cursor: "pointer",
+              transition: "var(--transition-fast)",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = "var(--clr-gold-glow)";
+              e.target.style.borderColor = "var(--clr-gold)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = "rgba(197, 160, 89, 0.1)";
+              e.target.style.borderColor = "rgba(197, 160, 89, 0.3)";
+            }}
+          >
+            ⌚ Wear Today
+          </button>
+        </div>
+      )}
     </Link>
   );
 }
