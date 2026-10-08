@@ -214,6 +214,48 @@
     flex-direction: column;
     gap: var(--space-md);
   }
+  
+  /* Fix Calendar Overflow on Mobile */
+  .wt-calendar-section {
+    padding: var(--space-md);
+  }
+  
+  .wt-calendar-grid {
+    gap: 2px;
+  }
+  
+  .wt-cal-header {
+    font-size: 0.65rem;
+    padding-bottom: 2px;
+  }
+  
+  .wt-cal-day {
+    padding: 4px;
+  }
+  
+  .wt-cal-day-num {
+    font-size: 0.7rem;
+  }
+  
+  .wt-heat-legend {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+  
+  .wt-heat-item {
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+  
+  .wt-calendar-title {
+    font-size: 1.2rem;
+  }
+  
+  .wt-nav-btn {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 /* Foldables / Narrow Displays */
