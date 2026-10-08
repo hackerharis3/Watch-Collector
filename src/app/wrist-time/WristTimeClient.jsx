@@ -477,8 +477,14 @@ export default function WristTimeClient() {
                     <div key={log.id} className="wt-timeline-item">
                       <div className="wt-timeline-dot"></div>
                       <div className="wt-timeline-card">
-                        <div className="wt-timeline-date">
-                          {logDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "var(--space-sm)" }}>
+                          <div className="wt-timeline-date" style={{ marginBottom: 0 }}>
+                            {logDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
+                          </div>
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <button className="wt-entry-delete" onClick={() => openLogModal(log)} title="Edit entry" style={{ fontSize: "1.1rem" }}>✎</button>
+                            <button className="wt-entry-delete" onClick={() => handleDeleteLog(log.id)} title="Remove entry">×</button>
+                          </div>
                         </div>
                         <div className="wt-timeline-watch">
                           {w && w.image && <img src={w.image} alt="" className="wt-timeline-img" />}
@@ -497,10 +503,6 @@ export default function WristTimeClient() {
                             {log.notes && <span>📝 {log.notes}</span>}
                           </div>
                         )}
-                        <div style={{ position: "absolute", top: "15px", right: "15px", display: "flex", gap: "10px" }}>
-                          <button className="wt-entry-delete" onClick={() => openLogModal(log)} title="Edit entry" style={{ fontSize: "1.1rem" }}>✎</button>
-                          <button className="wt-entry-delete" onClick={() => handleDeleteLog(log.id)} title="Remove entry">×</button>
-                        </div>
                       </div>
                     </div>
                   );
