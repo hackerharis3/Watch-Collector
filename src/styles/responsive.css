@@ -129,6 +129,18 @@
     top: 1rem;
     left: 1rem;
   }
+  
+  .wt-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .match-results-grid,
+  .match-seasonal-grid,
+  .match-occasions-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .wt-action-bar {
+    justify-content: center;
+  }
 }
 
 /* Phones */
@@ -162,6 +174,46 @@
   .watch-card-image {
     aspect-ratio: 1 / 1;
   }
+  
+  .match-occasions-grid,
+  .wt-analytics-grid,
+  .wt-stats-grid,
+  .match-results-grid,
+  .match-seasonal-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wt-cal-day-num {
+    font-size: 0.7rem;
+  }
+  
+  .wt-timeline-card {
+    margin-left: 20px;
+    padding: var(--space-md);
+  }
+  
+  .wt-timeline::before {
+    left: 10px;
+  }
+  
+  .wt-timeline-dot {
+    left: 4px;
+    width: 10px;
+    height: 10px;
+  }
+  
+  .wt-watch-selector {
+    grid-template-columns: 1fr;
+  }
+  
+  .wt-day-entries {
+    grid-template-columns: 1fr;
+  }
+  
+  .wt-entry-card {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
 }
 
 /* Foldables / Narrow Displays */
@@ -185,5 +237,71 @@
   .btn {
     width: 100%;
     justify-content: center;
+  }
+  
+  /* Fix hardcoded minmax grids causing overflow on foldables */
+  .match-occasions-grid,
+  .wt-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wt-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wt-cal-day {
+    padding: 2px;
+  }
+  
+  .wt-cal-day-num {
+    font-size: 0.65rem;
+  }
+}
+
+/* Extra Narrow Foldable Cover Screens (e.g. Galaxy Z Fold outer) */
+@media (max-width: 280px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .wt-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wt-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .wt-log-btn {
+    justify-content: center;
+  }
+  .gallery-filters {
+    justify-content: center;
+  }
+}
+
+/* Smart Displays / Nest Hub / Echo Show (Landscape, low height) */
+@media (max-height: 800px) and (orientation: landscape) and (min-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 6rem 0 4rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .wt-calendar-section {
+    padding: var(--space-md);
+  }
+  .wt-calendar-grid {
+    gap: 2px;
+  }
+  .wt-cal-day {
+    padding: 2px;
+  }
+  .match-watch-image {
+    height: 150px;
   }
 }
