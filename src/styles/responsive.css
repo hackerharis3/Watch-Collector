@@ -188,17 +188,31 @@
   }
   
   .wt-timeline-card {
-    margin-left: 20px;
-    padding: var(--space-md);
+    margin-left: 12px;
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .wt-timeline-img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .wt-timeline-watch {
+    gap: var(--space-sm);
+  }
+  
+  .wt-entry-tag {
+    font-size: 0.7rem;
+    padding: 2px 4px;
   }
   
   .wt-timeline::before {
-    left: 10px;
+    left: 8px;
   }
   
   .wt-timeline-dot {
-    left: 6px;
-    top: 20px;
+    left: 4px;
+    top: 12px;
     width: 10px;
     height: 10px;
   }

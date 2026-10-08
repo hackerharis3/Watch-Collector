@@ -366,6 +366,7 @@
 
 .wt-timeline-watch {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-md);
   margin-bottom: var(--space-sm);
 }
@@ -373,7 +374,7 @@
 .wt-timeline-watch > div,
 .wt-entry-info {
   flex: 1;
-  min-width: 0;
+  min-width: 120px;
 }
 
 .wt-timeline-img {
