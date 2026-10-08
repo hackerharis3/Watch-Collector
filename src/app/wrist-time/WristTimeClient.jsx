@@ -223,7 +223,7 @@ export default function WristTimeClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...logForm,
-          date: new Date(logForm.date + "T12:00:00"),
+          date: logForm.date + "T12:00:00Z",
           rating: logForm.rating || null,
         }),
       });
